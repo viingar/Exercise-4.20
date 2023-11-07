@@ -1,49 +1,44 @@
 package com.example.restdemo.Controller;
-
+import com.example.restdemo.Repository.PersonRepository;
 import com.example.restdemo.model.Person;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.util.*;
-
+import java.util.Optional;
 @RestController
 public class MainController {
 
-    private List<Person> persons = new ArrayList<>(Arrays.asList(
-            new Person(1, "Ivan", "Ivanovich", "Ivanov", LocalDate.of(1999, 2,3)),
-            new Person(2, "Петр", "Петрович", "Петров", LocalDate.of(2002, 2,2)),
-            new Person(3, "Евгений", "Васильевич", "Васин", LocalDate.of(2005, 4,8)),
-            new Person(4, "Максим", "Яковлевич", "Окопский", LocalDate.of(1978, 6,5))
-    ));
+    //server.port=8070
 
-    @PostMapping("/persons")
-    public Person addPerson(@RequestBody Person person) {
-        persons.add(person);
-        return person;
-    }
+    @Autowired
+    private PersonRepository repository;
     @GetMapping("/person")
-    public Iterable<Person> getPerson() {
-        return persons;
+    public Iterable<Person> getPersons() {
+        return repository.findAll();
     }
-
     @GetMapping("/person/{id}")
     public Optional<Person> findPersonById(@PathVariable int id) {
-        return persons.stream().filter(p -> p.getId() == id).findFirst();
+        return repository.findById(id);
     }
-    @PutMapping("/persons/{id}")
-    public Person updatePerson(@PathVariable int id, @RequestBody Person person) {
-        int index = - 1;
-        for (Person p : persons) {
-            if (p.getId() == id) {
-                index = persons.indexOf(p);
-                persons.set(index, person);
-            }
+    @PostMapping("/person")
+    public Person addPerson(@RequestBody Person person) {
+        repository.save(person);
+        return person;
+    }
+    @PutMapping("/person/{id}")
+    public ResponseEntity<Person> updatePerson(@PathVariable int id, @RequestBody Person person) {
+        HttpStatus status = repository.existsById(id) ? HttpStatus.OK : HttpStatus.CREATED;
+        if (status == HttpStatus.OK){
+            person.setId(id);
+            return new ResponseEntity(repository.save(person), status);
         }
-        return index == -1 ? addPerson(person) : person;
+        else
+            return new ResponseEntity(repository.save(person), status);
     }
-    @DeleteMapping("/persons/{id}")
+    @DeleteMapping("/person/{id}")
     public void deletePerson(@PathVariable int id) {
-        persons.removeIf(p -> p.getId() == id);
+        repository.deleteById(id);
     }
-
 }

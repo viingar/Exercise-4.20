@@ -1,8 +1,15 @@
 package com.example.restdemo.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
 import java.time.LocalDate;
 
+@Entity
 public class Person {
+    @Id
+    @GeneratedValue
     private int id;
     private String firstname;
     private String surname;
@@ -14,15 +21,22 @@ public class Person {
     public Person () {
     }
 
-     public Person(int id, String firstname, String surname, String lastname, LocalDate birthday) {
-            this.id = id;
+     public Person( String firstname, String surname, String lastname, LocalDate birthday) {
             this.firstname = firstname;
             this.surname = surname;
             this.lastname = lastname;
             this.birthday = birthday;
         }
+    public Person(int id,String firstname, String surname, String lastname, LocalDate birthday) {
+        this.id = id;
+        this.firstname = firstname;
+        this.surname = surname;
+        this.lastname = lastname;
+        this.birthday = birthday;
+    }
 
-        public int getId() {
+
+    public int getId() {
             return id;
         }
 

@@ -77,6 +77,13 @@ public class Person {
     public void addMessage(Message message) {
         messages.add(message);
     }
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }
     }
 
 

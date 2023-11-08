@@ -51,8 +51,6 @@ public class MainController {
     }
     @PostMapping("/persons/{id}/messages")
     public Person addMessage(@PathVariable int id, @RequestBody Message message) {
-        Person person = repository.findById(id).get();
-        person.addMessage(message);
-        return repository.save(person);
+        return service.addMeesageToPerson(id, message);
     }
 }

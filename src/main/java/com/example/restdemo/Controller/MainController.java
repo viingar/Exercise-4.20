@@ -1,5 +1,7 @@
 package com.example.restdemo.Controller;
 import com.example.restdemo.Repository.PersonRepository;
+import com.example.restdemo.Service.PersonService;
+import com.example.restdemo.model.Message;
 import com.example.restdemo.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +16,12 @@ public class MainController {
 
     @Autowired
     private PersonRepository repository;
+    private PersonService service;
+
+    public MainController(PersonService service) {
+        this.service = service;
+    }
+
     @GetMapping("/person")
     public Iterable<Person> getPersons() {
         return repository.findAll();
@@ -40,5 +48,11 @@ public class MainController {
     @DeleteMapping("/person/{id}")
     public void deletePerson(@PathVariable int id) {
         repository.deleteById(id);
+    }
+    @PostMapping("/persons/{id}/messages")
+    public Person addMessage(@PathVariable int id, @RequestBody Message message) {
+        Person person = repository.findById(id).get();
+        person.addMessage(message);
+        return repository.save(person);
     }
 }

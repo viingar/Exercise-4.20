@@ -10,6 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.net.HttpRetryException;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class PersonService {
@@ -42,6 +43,15 @@ public class PersonService {
         }
 
         return repository.save(person);
+    }
+
+
+    public List<Message> allMessagesFromPerson(int personId) {
+        if (!repository.existsById(personId)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        Person person = repository.findById(personId).get();
+        return person.getMessages();
     }
 
     }

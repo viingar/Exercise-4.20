@@ -1,0 +1,12 @@
+2023-11-08 18:14:25 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибка в выражении SQL "SELECT * [*]MESSAGE"
+Syntax error in SQL statement "SELECT * [*]MESSAGE"; SQL statement:
+SELECT * MESSAGE [42000-214]
+2023-11-08 19:26:18 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "MESSAGE_PERSON" не найдена
+Table "MESSAGE_PERSON" not found; SQL statement:
+SELECT * FROM  MESSAGE_PERSON [42102-214]
+2023-11-08 19:26:25 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "PERSON_MESSAGE" не найдена
+Table "PERSON_MESSAGE" not found; SQL statement:
+SELECT * FROM  PERSON_MESSAGE [42102-214]

@@ -26,4 +26,22 @@ public class PersonService {
             person.addMessage(message);
             return repository.save(person);
         }
+
+    public Person deleteMessageFromPerson (int personId, int messageId) {
+        if (!repository.existsById(personId)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
+        Person person = repository.findById(personId).get();
+        Message message = person.findMessageById(messageId);
+
+        if (message != null) {
+            person.removeMessage(message);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        return repository.save(person);
+    }
+
     }

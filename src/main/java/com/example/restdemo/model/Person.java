@@ -84,6 +84,18 @@ public class Person {
     public void setMessages(List<Message> messages) {
         this.messages = messages;
     }
+
+    public void removeMessage(Message message){
+        messages.remove(message);
+    }
+    public Message findMessageById(int messageId) {
+        for(Message message : this.messages) {
+            if(message.getId() == messageId) {
+                return message;
+            }
+        }
+        return null;
+    }
     }
 
 
